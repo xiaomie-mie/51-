@@ -1,0 +1,74 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\抢答器\带三极管版本\38--四路抢答器- (抢答时间答题时间可调带违规抢答带加减分)\1-keil程序\11.uvproj
+Project File Date:  10/08/2018
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling Text1.c...
+TEXT1.C(126): error C202: 'key5': undefined identifier
+TEXT1.C(129): error C202: 'key5': undefined identifier
+TEXT1.C(131): error C202: 'key6': undefined identifier
+TEXT1.C(134): error C202: 'key6': undefined identifier
+TEXT1.C(136): error C202: 'key7': undefined identifier
+TEXT1.C(139): error C202: 'key8': undefined identifier
+TEXT1.C(141): error C202: 'key8': undefined identifier
+TEXT1.C(144): error C202: 'key8': undefined identifier
+TEXT1.C(303): error C202: 'key5': undefined identifier
+TEXT1.C(309): error C202: 'key6': undefined identifier
+TEXT1.C(315): error C202: 'key7': undefined identifier
+TEXT1.C(321): error C202: 'key8': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling Text1.c...
+TEXT1.C(278): error C202: 'key5': undefined identifier
+TEXT1.C(284): error C202: 'key6': undefined identifier
+TEXT1.C(290): error C202: 'key7': undefined identifier
+TEXT1.C(296): error C202: 'key8': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling Text1.c...
+linking...
+Program Size: data=67.0 xdata=0 code=1705
+creating hex file from "11"...
+"11" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling Text1.c...
+TEXT1.C(188): error C202: 'fen5': undefined identifier
+TEXT1.C(189): error C202: 'fen5': undefined identifier
+TEXT1.C(192): error C202: 'fen5': undefined identifier
+TEXT1.C(197): error C202: 'fen5': undefined identifier
+TEXT1.C(204): error C202: 'fen6': undefined identifier
+TEXT1.C(205): error C202: 'fen6': undefined identifier
+TEXT1.C(208): error C202: 'fen6': undefined identifier
+TEXT1.C(213): error C202: 'fen6': undefined identifier
+TEXT1.C(220): error C202: 'fen7': undefined identifier
+TEXT1.C(221): error C202: 'fen7': undefined identifier
+TEXT1.C(224): error C202: 'fen7': undefined identifier
+TEXT1.C(229): error C202: 'fen7': undefined identifier
+TEXT1.C(236): error C202: 'fen8': undefined identifier
+TEXT1.C(237): error C202: 'fen8': undefined identifier
+TEXT1.C(240): error C202: 'fen8': undefined identifier
+TEXT1.C(245): error C202: 'fen8': undefined identifier
+Target not created
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling Text1.c...
+linking...
+Program Size: data=59.0 xdata=0 code=1387
+creating hex file from "11"...
+"11" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling Text1.c...
+linking...
+Program Size: data=59.0 xdata=0 code=1387
+creating hex file from "11"...
+"11" - 0 Error(s), 0 Warning(s).

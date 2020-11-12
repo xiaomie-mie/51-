@@ -1,0 +1,385 @@
+C51 COMPILER V9.00   TEXT1                                                                 11/04/2018 12:33:57 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE TEXT1
+OBJECT MODULE PLACED IN Text1.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Text1.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<intrins.h>
+   3          sbit smg1=P2^0;   //定义数码管第一位
+   4          sbit smg2=P2^2;   //定义数码管第二位
+   5          sbit smg3=P2^4;   //定义数码管第三位
+   6          sbit smg4=P2^6;
+   7          sbit keyks=P3^0;  //定义开始按键
+   8          sbit keytz=P3^1;  //定义停止按键
+   9          sbit keyqc=P3^2;  //定义清除按键
+  10          sbit keysz=P3^3;  //定义设置按键
+  11          sbit keyjia=P3^4;  //定义加
+  12          sbit keyjian=P3^5;   //定义减
+  13          sbit key1=P1^0;   //定义1号抢答选手
+  14          sbit key2=P1^1;   //定义2号抢答选手
+  15          sbit key3=P1^2;   //定义3号抢答选手
+  16          sbit key4=P1^3;   //定义4号抢答选手
+  17          sbit spk=P3^7;    //定义蜂鸣器
+  18          int qdsj=20,dtsj=20; //定义抢答时间、答题时间
+  19          int qdsjsz=20,dtsjsz=20; //变量，可以存储设置的抢答时间、答题时间
+  20          int flag,num,szflag;   //flag为未开始、抢答、答题切换标志位，num定时、szflag为设置抢答时间答题时间位
+  21          int qdplayer;      //抢答选手号
+  22          int fen1,fen2,fen3,fen4;
+  23          int jjfflag=1;
+  24          int table[]={0xc0,0xf9,0xa4,0xb0, 0x99,0x92,0x82,0xf8, 0x80,0x90,0xbf};
+  25          void w1(int num);
+  26          void w2(int num);
+  27          void w3(int num);
+  28          void w4(int num);
+  29          void delay(int z)    //延时函数
+  30          {
+  31   1        int x,y;
+  32   1        for(x=z;x>0;x--)
+  33   1          for(y=110;y>0;y--);
+  34   1      }
+  35          void keypro()      //各按键处理函数
+  36          {
+  37   1        if(keyks==0)   //开始按键
+  38   1        {
+  39   2          TR0=1;
+  40   2          flag=1;
+  41   2          qdplayer=0;
+  42   2          szflag=0;
+  43   2          qdsj=qdsjsz;
+  44   2          dtsj=dtsjsz;
+  45   2          while(!keyks);
+  46   2        }
+  47   1        if(keytz==0)  //暂停、开始按键
+  48   1        {
+  49   2          TR0=~TR0;
+  50   2          while(!keytz);
+  51   2        }
+  52   1        if(keyqc==0)    //复位按键
+  53   1        {
+  54   2          flag=0;
+  55   2          qdplayer=0;
+C51 COMPILER V9.00   TEXT1                                                                 11/04/2018 12:33:57 PAGE 2   
+
+  56   2          szflag=0;
+  57   2          spk=1;
+  58   2          qdsj=qdsjsz;
+  59   2          dtsj=dtsjsz;
+  60   2          jjfflag=1;
+  61   2          while(!keyqc);
+  62   2        }
+  63   1        if(flag==0)        //当为未开始状态才可进行设置抢答时间、答题时间
+  64   1        {
+  65   2          if(keysz==0)    //设置按键
+  66   2          {
+  67   3            szflag++;
+  68   3            if(szflag>=4)
+  69   3            {
+  70   4              szflag=0; 
+  71   4            }
+  72   3            while(!keysz);  
+  73   3          }
+  74   2          if(szflag==1)   //设置抢答时间
+  75   2          {
+  76   3            if(keyjia==0)
+  77   3            {
+  78   4              qdsjsz++;
+  79   4              qdsj=qdsjsz;
+  80   4              while(!keyjia);
+  81   4            }
+  82   3            if(keyjian==0)
+  83   3            {
+  84   4              qdsjsz--;
+  85   4              qdsj=qdsjsz;
+  86   4              while(!keyjian);
+  87   4            }
+  88   3          }
+  89   2          if(szflag==2)      //设置答题时间
+  90   2          {
+  91   3            if(keyjia==0)
+  92   3            {
+  93   4              dtsjsz++;
+  94   4              dtsj=dtsjsz;
+  95   4              while(!keyjia);
+  96   4            }
+  97   3            if(keyjian==0)
+  98   3            {
+  99   4              dtsjsz--;
+ 100   4              dtsj=dtsjsz;
+ 101   4              while(!keyjian);
+ 102   4            }   
+ 103   3          }
+ 104   2          if(szflag==3)
+ 105   2          {
+ 106   3            if(key1==0)
+ 107   3            {
+ 108   4              jjfflag=1;
+ 109   4              while(!key1);
+ 110   4            }
+ 111   3            if(key2==0)
+ 112   3            {
+ 113   4              jjfflag=2;
+ 114   4              while(!key2);
+ 115   4            }
+ 116   3            if(key3==0)
+ 117   3            {
+C51 COMPILER V9.00   TEXT1                                                                 11/04/2018 12:33:57 PAGE 3   
+
+ 118   4              jjfflag=3;
+ 119   4              while(!key3);
+ 120   4            }
+ 121   3            if(jjfflag==1)
+ 122   3            {
+ 123   4              w1(1);
+ 124   4              w2(fen1/10);
+ 125   4              w3(fen1%10);
+ 126   4              if(keyjia==0)
+ 127   4              {
+ 128   5                fen1++;
+ 129   5                while(!keyjia);
+ 130   5              }
+ 131   4              if(keyjian==0)
+ 132   4              {
+ 133   5                fen1--;
+ 134   5                while(!keyjian);
+ 135   5              }
+ 136   4            }
+ 137   3            if(jjfflag==2)
+ 138   3            {
+ 139   4              w1(2);
+ 140   4              w2(fen2/10);
+ 141   4              w3(fen2%10);
+ 142   4              if(keyjia==0)
+ 143   4              {
+ 144   5                fen2++;
+ 145   5                while(!keyjia);
+ 146   5              }
+ 147   4              if(keyjian==0)
+ 148   4              {
+ 149   5                fen2--;
+ 150   5                while(!keyjian);
+ 151   5              }
+ 152   4            }
+ 153   3            if(jjfflag==3)
+ 154   3            {
+ 155   4              w1(3);
+ 156   4              w2(fen3/10);
+ 157   4              w3(fen3%10);
+ 158   4              if(keyjia==0)
+ 159   4              {
+ 160   5                fen3++;
+ 161   5                while(!keyjia);
+ 162   5              }
+ 163   4              if(keyjian==0)
+ 164   4              {
+ 165   5                fen3--;
+ 166   5                while(!keyjian);
+ 167   5              }
+ 168   4            } 
+ 169   3          }
+ 170   2        }
+ 171   1      }
+ 172          void keyqd()        //抢答
+ 173          {
+ 174   1        if(key1==0)        //一号选手抢答
+ 175   1        {
+ 176   2          qdplayer=1;      //编号置1
+ 177   2          flag=2;        //进入答题状态
+ 178   2          spk=1;         //关闭蜂鸣器
+ 179   2        } 
+C51 COMPILER V9.00   TEXT1                                                                 11/04/2018 12:33:57 PAGE 4   
+
+ 180   1        if(key2==0)
+ 181   1        {
+ 182   2          qdplayer=2;
+ 183   2          flag=2;
+ 184   2          spk=1;
+ 185   2        }
+ 186   1        if(key3==0)
+ 187   1        {
+ 188   2          qdplayer=3 ;
+ 189   2          flag=2;
+ 190   2          spk=1;
+ 191   2        }
+ 192   1        if(key4==0)
+ 193   1        {
+ 194   2          qdplayer=4  ;
+ 195   2          flag=2; 
+ 196   2          spk=1;   
+ 197   2        }
+ 198   1      
+ 199   1      }
+ 200          void w1(int num)
+ 201          {
+ 202   1        smg1=0;
+ 203   1        P0=table[num];
+ 204   1        delay(5);
+ 205   1        P0=0xff;
+ 206   1        smg1=1; 
+ 207   1      }
+ 208          void w2(int num)
+ 209          {
+ 210   1        smg2=0;
+ 211   1        P0=table[num];
+ 212   1        delay(5);
+ 213   1        P0=0xff;
+ 214   1        smg2=1; 
+ 215   1      }
+ 216          void w3(int num)
+ 217          {
+ 218   1        smg3=0;
+ 219   1        P0=table[num];
+ 220   1        delay(5);
+ 221   1        P0=0xff;
+ 222   1        smg3=1; 
+ 223   1      }
+ 224          void w4(int num)
+ 225          {
+ 226   1        smg4=0;
+ 227   1        P0=table[num];
+ 228   1        delay(5);
+ 229   1        P0=0xff;
+ 230   1        smg4=1; 
+ 231   1      }
+ 232          void init()       //定时器中断1初始化
+ 233          {
+ 234   1        TMOD=0x01;
+ 235   1        TH0=(65536-45872)/256;
+ 236   1        TL0=(65536-45872)%256;
+ 237   1        EA=1;
+ 238   1        ET0=1;
+ 239   1        TR0=0;
+ 240   1      }
+ 241          void main()        //主函数
+C51 COMPILER V9.00   TEXT1                                                                 11/04/2018 12:33:57 PAGE 5   
+
+ 242          {
+ 243   1        int t;         //t局部变量
+ 244   1        init();
+ 245   1        while(1)
+ 246   1        {
+ 247   2         AA:  w4(10);
+ 248   2        keypro();
+ 249   2          if(szflag==0)      //未进行时间设置状态
+ 250   2          {
+ 251   3            if(flag==0)     //未开始抢答
+ 252   3            {
+ 253   4              keyqd();    //抢答、此时抢答属于违规抢答
+ 254   4              if(qdplayer==0)    //显示---
+ 255   4              {
+ 256   5                w1(10);
+ 257   5                w2(10);
+ 258   5                w3(10);
+ 259   5              }else
+ 260   4              {
+ 261   5                while(1)       //显示选手编号
+ 262   5                {
+ 263   6                  w1(qdplayer);
+ 264   6                  w2(10);
+ 265   6                  w3(10);
+ 266   6                  spk=0;
+ 267   6                  if(keyqc==0)     //复位
+ 268   6                  {
+ 269   7                    spk=1;
+ 270   7                    goto AA;   //强行跳转，程序重新执行
+ 271   7                  }
+ 272   6                }
+ 273   5              }
+ 274   4            }
+ 275   3            if(flag==1)                         //抢答
+ 276   3            {
+ 277   4                t=10;
+ 278   4              w1(t);
+ 279   4                t=qdsj/10;
+ 280   4                w2(t);
+ 281   4              t=qdsj%10;
+ 282   4              w3(t);
+ 283   4              if(TR0==1)
+ 284   4              {
+ 285   5                keyqd();
+ 286   5              }
+ 287   4            }
+ 288   3            if(flag==2)                   //答题
+ 289   3            {
+ 290   4              w1(qdplayer);
+ 291   4                t=dtsj/10;
+ 292   4                w2(t);
+ 293   4              t=dtsj%10;
+ 294   4              w3(t);  
+ 295   4            }
+ 296   3          }
+ 297   2          if(szflag==1)                   //设置抢答时间
+ 298   2          {
+ 299   3              t=qdsjsz/10;
+ 300   3              w2(t);
+ 301   3            t=qdsjsz%10;
+ 302   3            w3(t);  
+ 303   3          }
+C51 COMPILER V9.00   TEXT1                                                                 11/04/2018 12:33:57 PAGE 6   
+
+ 304   2          if(szflag==2)                //设置答题时间
+ 305   2          {
+ 306   3              t=dtsjsz/10;
+ 307   3              w2(t);
+ 308   3            t=dtsjsz%10;
+ 309   3            w3(t);  
+ 310   3          }
+ 311   2        }
+ 312   1      }
+ 313          void T0_time() interrupt 1        //定时器中断
+ 314          {
+ 315   1        TH0=(65536-45872)/256;        //装初值
+ 316   1        TL0=(65536-45872)%256;
+ 317   1        num++;
+ 318   1        if(num>=20)           //中断20次为1s
+ 319   1        {
+ 320   2          num=0;
+ 321   2          if(flag==1)             //当为抢答状态
+ 322   2          {
+ 323   3           qdsj--;          //倒计时一次减一秒
+ 324   3           if(qdsj<=5)        //最后5秒一秒一响
+ 325   3           {
+ 326   4            spk=~spk;
+ 327   4           }
+ 328   3           if(qdsj<=0)      //倒计时结束没有人抢答
+ 329   3           {
+ 330   4            qdsj=0;
+ 331   4            TR0=0;
+ 332   4            spk=1;
+ 333   4            flag=0;
+ 334   4           }
+ 335   3           }
+ 336   2          if(flag==2)
+ 337   2          {
+ 338   3            dtsj--;
+ 339   3            if(dtsj<=5)
+ 340   3             {
+ 341   4              spk=~spk;
+ 342   4             }
+ 343   3            if(dtsj<=0)
+ 344   3            {
+ 345   4              dtsj=0;
+ 346   4              TR0=0;
+ 347   4              spk=1;
+ 348   4              flag=0;
+ 349   4            }
+ 350   3          }
+ 351   2        } 
+ 352   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1057    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     48       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
