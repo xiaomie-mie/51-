@@ -1,3 +1,4 @@
 "STARTUP.obj",
 "Text1.obj" 
 TO "11" 
+RAMSIZE(256) 
