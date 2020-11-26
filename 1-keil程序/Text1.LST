@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   TEXT1                                                             11/12/2020 20:00:55 PAGE 1   
+C51 COMPILER V9.60.0.0   TEXT1                                                             11/25/2020 21:08:12 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TEXT1
@@ -62,7 +62,7 @@ line level    source
   53   1        {
   54   2          flag=0;
   55   2          qdplayer=0;
-C51 COMPILER V9.60.0.0   TEXT1                                                             11/12/2020 20:00:55 PAGE 2   
+C51 COMPILER V9.60.0.0   TEXT1                                                             11/25/2020 21:08:12 PAGE 2   
 
   56   2          szflag=0;
   57   2          spk=1;
@@ -126,7 +126,7 @@ line level    source
  115   4            }
  116   3            if(key3==0)
  117   3            {
-C51 COMPILER V9.60.0.0   TEXT1                                                             11/12/2020 20:00:55 PAGE 3   
+C51 COMPILER V9.60.0.0   TEXT1                                                             11/25/2020 21:08:12 PAGE 3   
 
  118   4              jjfflag=3;
  119   4              while(!key3);
@@ -190,7 +190,7 @@ line level    source
  177   2          flag=2;        //进入答题状态
  178   2          spk=1;         //关闭蜂鸣器
  179   2        } 
-C51 COMPILER V9.60.0.0   TEXT1                                                             11/12/2020 20:00:55 PAGE 4   
+C51 COMPILER V9.60.0.0   TEXT1                                                             11/25/2020 21:08:12 PAGE 4   
 
  180   1        if(key2==0)
  181   1        {
@@ -254,7 +254,7 @@ line level    source
  239   1        TR0=0;
  240   1      }
  241          void main()        //主函数
-C51 COMPILER V9.60.0.0   TEXT1                                                             11/12/2020 20:00:55 PAGE 5   
+C51 COMPILER V9.60.0.0   TEXT1                                                             11/25/2020 21:08:12 PAGE 5   
 
  242          {
  243   1        int t;         //t局部变量
@@ -318,7 +318,7 @@ line level    source
  301   3            t=qdsjsz%10;
  302   3            w3(t);  
  303   3          }
-C51 COMPILER V9.60.0.0   TEXT1                                                             11/12/2020 20:00:55 PAGE 6   
+C51 COMPILER V9.60.0.0   TEXT1                                                             11/25/2020 21:08:12 PAGE 6   
 
  304   2          if(szflag==2)                //设置答题时间
  305   2          {
